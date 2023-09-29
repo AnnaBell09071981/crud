@@ -56,6 +56,55 @@ class User {
   }
 }
 
+class Product {
+  static #list = []
+  constructor(name, price, description) {
+    this.name = name
+    this.price = price
+    this.description = description
+    this.id = new Date().getTime()
+  }
+
+  static add = (product) => {
+    this.#list.push(product)
+  }
+
+  static getList = () => this.#list
+
+  static getById = (id) =>
+    this.#list.find((product) => product.id === id)
+
+  static deleteById = (id) => {
+    const index = this.#list.findIndex(
+      (product) => product.id === id,
+    )
+
+    if (index !== -1) {
+      this.#list.splice(index, 1)
+      return true
+    } else {
+      return false
+    }
+  }
+
+  static updateById = (id, { email }) => {
+    const user = this.getById(id)
+
+    if (user) {
+      this.update(user, data)
+      return true
+    } else {
+      return false
+    }
+  }
+
+  static update = (user, { email }) => {
+    if (email) {
+      user.email = email
+    }
+  }
+}
+
 // ================================================================
 
 // router.get Створює нам один ентпоїнт
@@ -133,5 +182,18 @@ router.post('/user-update', function (req, res) {
   })
 })
 
+// ============================================================
+
+router.get('/product-create', function (req, res) {
+  const { name, price, description } = req.body
+  const product = new Product(name, price, description)
+  Product.add(product)
+  console.log(Product.getList())
+
+  res.render('product-create', {
+    style: 'product-create',
+    info: 'Продукт добавлений',
+  })
+})
 // Підключаємо роутер до бек-енду
 module.exports = router

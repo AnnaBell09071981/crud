@@ -94,6 +94,73 @@
       </form>
     </div>
   </section>
+
+  <section>
+    <div class="form">
+      <h1 class="form__title">Список товарів</h1>
+      <div class="products-list">
+        {{#with data.products}}
+        {{#if isEmpty}}
+        <mark>Пустий</mark>
+        {{else}}
+        <ul>
+          {{#each list}}
+          <li>{{name}} | {{price}} | {{id}} <a href="/product-edit?id={{id}}">(видалити)</a></li>
+          {{/each}}
+        </ul>
+        {{/if}}
+        {{/with}}
+        aaaaaaa
+      </div>
+    </div>
+  </section>
+
+
+  <section>
+    <div class="form">
+      <h1 class="form__title">Список товарів</h1>
+      <div class="card_product">
+        {{#with data.products}}
+        {{#each list}}
+        {{name}} | {{price}} | {{description}}
+        {{/each}}
+        {{/with}}
+      </div>
+    </div>
+  </section>
+
+
+  <section>
+    <div class="form">
+      <h1 class="form__title">Інформація про товар</h1>
+      <form method="POST" action="/product-edit">
+        <div class="form__content">
+          <div class="form__name_price_id">
+            <div class="form__field form__name_edit">
+              <label for="name" class="from__label">Назва товару</label>
+              <input type="name" name="name" class="form__input">
+            </div>
+            <div class="form__field form__price_edit">
+              <label for="price" class="from__label">Ціна</label>
+              <input type="price" name="price" class="form__input">
+            </div>
+            <div class="form__field form__id_edit">
+              <label for="id" class="from__label">ID</label>
+              <input type="id" name="id" class="form__input">
+            </div>
+          </div>
+          <div class="form__field">
+            <label for="description" class="from__label">Короткий опис товару</label>
+            <input type="description" name="description" class="form__input form__description">
+          </div>
+          <div class="form__button_edit">
+            <button class="form__button_color_blue">Зберегти оновлення</button>
+            <button class="form__button_color_red">Видалити товар</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
 </main>
 
 

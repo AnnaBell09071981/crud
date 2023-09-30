@@ -98,9 +98,9 @@ class Product {
     }
   }
 
-  static update = (user, { email }) => {
-    if (email) {
-      user.email = email
+  static update = (product, { id }) => {
+    if (id) {
+      product.id = id
     }
   }
 }
@@ -184,16 +184,65 @@ router.post('/user-update', function (req, res) {
 
 // ============================================================
 
-router.get('/product-create', function (req, res) {
+// ================================================================
+
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.get('/', function (req, res) {
+  // res.render генерує нам HTML сторінку
+
+  const list = Product.getList()
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('index', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'index',
+
+    data: {
+      products: {
+        list,
+        isEmpty: list.length === 0,
+      },
+    },
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
+
+// ================================================================
+
+router.post('/product-create', function (req, res) {
   const { name, price, description } = req.body
   const product = new Product(name, price, description)
   Product.add(product)
   console.log(Product.getList())
 
-  res.render('product-create', {
-    style: 'product-create',
+  res.render('alert', {
+    style: 'alert',
     info: 'Продукт добавлений',
   })
 })
+
+// ================================================================
+
+router.get('/product-list', function (req, res) {
+  res.render('alert', {
+    style: 'alert',
+    info: 'Редагувати',
+  })
+})
+
+// ============================================================
+
+router.post('/product-edit', function (req, res) {
+  res.render('alert', {
+    style: 'alert',
+    info: result
+      ? 'Інформація оновлена'
+      : 'Сталась помилка',
+  })
+})
+
+// ============================================================
 // Підключаємо роутер до бек-енду
 module.exports = router

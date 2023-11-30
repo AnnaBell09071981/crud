@@ -87,11 +87,11 @@ class Product {
     }
   }
 
-  static updateById = (id, { email }) => {
-    const user = this.getById(id)
+  static updateById = (id, { name }) => {
+    const product = this.getById(id)
 
-    if (user) {
-      this.update(user, data)
+    if (product) {
+      this.update(name, data)
       return true
     } else {
       return false

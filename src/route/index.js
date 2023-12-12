@@ -89,11 +89,13 @@ class Product {
     }
   }
 
-  static updateById = (id, { name }) => {
+  static updateById = (id, data) => {
     const product = this.getById(id)
-
+    const { name } = data
     if (product) {
-      this.update(name, data)
+      if (name) {
+        product.name = name
+      }
       return true
     } else {
       return false
@@ -217,8 +219,8 @@ router.post('/product-create', function (req, res) {
   const product = new Product(name, price, description)
   Product.add(product)
   console.log(Product.getList())
-  res.render('alert', {
-    style: 'alert',
+  res.render('product-alert', {
+    style: 'product-alert',
     info: 'Продукт добавлений',
   })
 })
@@ -258,12 +260,24 @@ router.get('/product-edit', function (req, res) {
   const { id } = req.query
 
   const product = Product.getById(Number(id))
-  Product.add(product)
-  console.log(Product.getList())
-  res.render('alert', {
-    style: 'alert',
-    info: 'Товар з таким ID не знайдено',
-  })
+  console.log(product)
+  if (product) {
+    return res.render('product-edit', {
+      style: 'index',
+      data: {
+        name: product.name,
+        price: product.price,
+        id: product.id,
+        description: product.description,
+      },
+    })
+  } else {
+    return res.render('product-alert', {
+      style: 'index',
+      info: 'Товар з таким ID не знайдено',
+    })
+  }
+
   // res.render генерує нам HTML сторінку
 
   // ↙️ cюди вводимо назву файлу з сontainer
@@ -276,26 +290,27 @@ router.get('/product-edit', function (req, res) {
 // ============================================================
 
 router.post('/product-edit', function (req, res) {
-  const { name, price, description } = req.body
+  const { id, name, price, description } = req.body
 
-  let result = false
-
-  const product = Product.getById(Number(id))
-
-  if (product.verifyID(id)) {
-    Product.update(
-      product,
-      { name },
-      { description },
-      { price },
-    )
-    result = true
-  }
-
-  res.render('alert', {
-    style: 'alert',
-    info: result ? 'Продукт оновлений' : 'Сталась помилка',
+  const product = Product.updateById(Number(id), {
+    name,
+    price,
+    description,
   })
+  console.log(id)
+  console.log(product)
+
+  if (product) {
+    res.render('product-alert', {
+      style: 'index',
+      info: 'Інформація про товар оновлена',
+    })
+  } else {
+    res.render('product-alert', {
+      style: 'index',
+      info: 'Сталась помилка',
+    })
+  }
 })
 
 // ============================================================

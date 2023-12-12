@@ -104,4 +104,15 @@ main {
   padding-bottom: 5px;
 }
 
+.product-card {
+  display: flex;
+}
+
+.card {
+  display: flex;
+  width: 200px;
+  height: 200px;
+  border: 1px solid white;
+}
+
 /*# sourceMappingURL=style.css.map */

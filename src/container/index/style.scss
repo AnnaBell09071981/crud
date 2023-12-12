@@ -93,6 +93,7 @@
         border-radius: 4px;
         margin-right: 20px;
     }
+    
 }
 
 
@@ -109,12 +110,34 @@ main {
         padding-bottom: 5px;
     }
 }
-.product-card {
+.products-list {
     display: flex;
 }
-.card {
+.product {
     display: flex;
+}
+.product__card {
+    display: flex;
+    flex-direction: column;
     width: 200px;
     height: 200px;
     border: 1px solid white;
+    margin: 20px;
+}
+
+.product__name {
+    display: flex;
+    width: 50%;
+    margin-right: 20px;
+}
+.product__price {
+    display: flex;
+    width: 50%;
+}
+.product__description {
+    display: flex;
+    height: 100px;
+}
+.product__edit {
+    display: flex;
 }

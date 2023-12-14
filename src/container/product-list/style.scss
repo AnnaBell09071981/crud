@@ -119,8 +119,8 @@ main {
     }
 }
 .products-list {
-    display: flex;
-    width: 1060px;
+    display: grid;
+    max-width: 100%;
 }
 .product {
     display: flex;
@@ -146,6 +146,8 @@ main {
         display: flex;
     }
     &__id {
+        color: #c5ccc6;
+        opacity: 0.75;
         padding-top: 10px;
         padding-bottom: 20px;
     }

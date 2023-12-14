@@ -1,0 +1,145 @@
+@use '../../lib/service.scss' as s;
+
+.form {
+    display: flex;
+    flex-direction: column;
+    padding: s.space(4);
+    gap: s.space(8);
+
+    &__title {
+        font-size: 20px;
+        font-weight: bold;
+        padding-bottom: s.space(1);
+        border-bottom: 1px solid s.color('light');
+    }
+    &__content {
+        display: grid;
+        gap: s.space(6);
+    }
+    &__field {
+        display: flex;
+        flex-direction: column;
+        gap: s.space(2);
+    }
+    &__label {
+        font-size: 14px;
+    }
+    &__input {
+        border: 1px solid s.color('light');
+        padding: s.space(2);
+    }
+    &__button {
+        border: 1px solid s.color('light');
+        padding: s.space(2);
+        border-radius: 20px;
+    }
+    &__name_price {
+        display: flex;
+        grid-template-columns: 1fr 1fr;
+    }
+    &__name {
+        display: flex;
+        width: 50%;
+        margin-right: 20px;
+    }
+    &__price {
+        display: flex;
+        width: 50%;
+    }
+    &__description {
+        display: flex;
+        height: 100px;
+    }
+    
+    &__button_color {
+        background-color: blue;
+        border: 1px solid s.color('light');
+        padding: s.space(2);
+        border-radius: 4px;
+    }
+    &__button_edit {
+        display: flex;
+    }
+    &__button_color_red {
+        width: 50%;
+        background-color: red;
+        border: 1px solid s.color('light');
+        padding: s.space(2);
+        border-radius: 4px;
+    }
+    &__button_color_blue {
+        width: 50%;
+        background-color: blue;
+        border: 1px solid s.color('light');
+        padding: s.space(2);
+        border-radius: 4px;
+        margin-right: 20px;
+    }
+    &__name_price_id {
+        display: flex;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    &__name_edit {
+        display: flex;
+        width: 33%;
+        margin-right: 20px;
+    }
+    &__price_edit {
+        display: flex;
+        width: 33%;
+        margin-right: 20px;
+    }
+    &__id_edit {
+        display: flex;
+        width: 33%;
+        margin-right: 20px;
+    }
+    
+    
+}
+
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: s.space(10);
+}
+
+.user-list {
+    li {
+        padding-right: 15px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+}
+.products-list {
+    display: flex;
+}
+.product {
+    display: flex;
+}
+.product__card {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    height: 200px;
+    border: 1px solid white;
+    margin: 20px;
+}
+
+.product__name {
+    display: flex;
+    width: 50%;
+    margin-right: 20px;
+}
+.product__price {
+    display: flex;
+    width: 50%;
+}
+.product__description {
+    display: flex;
+    height: 100px;
+}
+.product__edit {
+    display: flex;
+}

@@ -80,7 +80,6 @@ class Product {
     const index = this.#list.findIndex(
       (product) => product.id === id,
     )
-
     if (index !== -1) {
       this.#list.splice(index, 1)
       return true
@@ -99,12 +98,6 @@ class Product {
       return true
     } else {
       return false
-    }
-  }
-
-  static update = (product, { id }) => {
-    if (id) {
-      product.id = id
     }
   }
 }
@@ -200,7 +193,7 @@ router.get('/product-create', function (req, res) {
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('product-create', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'index',
+    style: 'product-create',
 
     data: {
       products: {
@@ -239,7 +232,7 @@ router.get('/product-list', function (req, res) {
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('product-list', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'index',
+    style: 'product-list',
 
     data: {
       products: {
@@ -263,7 +256,7 @@ router.get('/product-edit', function (req, res) {
   console.log(product)
   if (product) {
     return res.render('product-edit', {
-      style: 'index',
+      style: 'product-edit',
       data: {
         name: product.name,
         price: product.price,
@@ -273,7 +266,7 @@ router.get('/product-edit', function (req, res) {
     })
   } else {
     return res.render('product-alert', {
-      style: 'index',
+      style: 'product-edit',
       info: 'Товар з таким ID не знайдено',
     })
   }
@@ -308,6 +301,29 @@ router.post('/product-edit', function (req, res) {
   } else {
     res.render('product-alert', {
       style: 'index',
+      info: 'Сталась помилка',
+    })
+  }
+})
+
+// ============================================================
+
+// ============================================================
+
+router.get('/product-delete', function (req, res) {
+  const { id } = req.query
+
+  const product = Product.deleteById(Number(id))
+  console.log(id)
+  console.log(product)
+  if (product) {
+    res.render('product-alert', {
+      style: 'product-alert',
+      info: 'Товар видалено',
+    })
+  } else {
+    res.render('product-alert', {
+      style: 'product-alert',
       info: 'Сталась помилка',
     })
   }

@@ -58,6 +58,8 @@
   display: flex;
 }
 .form__button_color_red {
+  text-align: center;
+  text-decoration: none;
   width: 50%;
   background-color: red;
   border: 1px solid #ddd;

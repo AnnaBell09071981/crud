@@ -61,6 +61,8 @@
         display: flex;
     }
     &__button_color_red {
+        text-align: center;
+        text-decoration: none;
         width: 50%;
         background-color: red;
         border: 1px solid s.color('light');

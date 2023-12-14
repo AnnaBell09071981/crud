@@ -40,8 +40,10 @@
             <input type="description" name="description" class="form__input form__description">
           </div>
           <div class="form__button_edit">
+            {{#with data}}
             <button class="form__button_color_blue">Зберегти оновлення</button>
-            <button class="form__button_color_red">Видалити товар</button>
+            <a href="/product-delete?id={{id}}" class="form__button_color_red">Видалити товар</a>
+            {{/with}}
           </div>
         </div>
       </form>

@@ -297,12 +297,12 @@ router.post('/product-edit', function (req, res) {
 
   if (product) {
     res.render('product-alert', {
-      style: 'index',
+      style: 'product-alert',
       info: 'Інформація про товар оновлена',
     })
   } else {
     res.render('product-alert', {
-      style: 'index',
+      style: 'product-alert',
       info: 'Сталась помилка',
     })
   }

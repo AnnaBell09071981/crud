@@ -111,22 +111,24 @@ main {
 }
 
 .products-list {
-  display: grid;
-  max-width: 100%;
+  display: flex;
 }
 
 .product {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
 }
 .product__card {
   display: flex;
   flex-direction: column;
-  width: 260px;
-  height: 200px;
+  min-width: 260px;
+  min-height: 200px;
   border: 1px solid white;
   margin: 20px;
   padding-left: 20px;
   padding-top: 20px;
+  border-radius: 4px;
 }
 .product__name {
   padding-bottom: 20px;
@@ -150,6 +152,8 @@ main {
 }
 .product__edit {
   padding-left: 60px;
+  padding-bottom: 20px;
+  padding-top: 12px;
 }
 .product__edit_button {
   text-decoration: none;

@@ -316,8 +316,7 @@ router.get('/product-delete', function (req, res) {
   const { id } = req.query
 
   const product = Product.deleteById(Number(id))
-  console.log(id)
-  console.log(product)
+
   if (product) {
     res.render('product-alert', {
       style: 'product-alert',

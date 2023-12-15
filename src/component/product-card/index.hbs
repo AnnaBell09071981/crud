@@ -1,6 +1,8 @@
 {{#with data.products}}
 {{#if isEmpty}}
-<mark>Пустий</mark>
+<div>
+    <mark class="list_mark">Пустий</mark>
+</div>
 {{else}}
 {{#each list}}
 <div class="product__card">

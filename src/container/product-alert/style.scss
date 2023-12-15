@@ -96,6 +96,7 @@
     }
     &__product_alert {
         display: flex;
+        max-width: 100%;
         text-justify: center;
         border: 1px solid s.color('light');
         margin-top: 20px;

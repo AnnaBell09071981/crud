@@ -58,11 +58,12 @@ class User {
 
 class Product {
   static #list = []
-  constructor(name, price, description) {
+  constructor(name, price, description, createDate) {
     this.name = name
     this.price = price
     this.description = description
     this.id = new Date().getTime()
+    this.createDate = new Date()
   }
 
   verifyID = (id) => this.id === id
@@ -317,15 +318,16 @@ router.get('/product-delete', function (req, res) {
 
   const product = Product.deleteById(Number(id))
 
+  console.log(product)
   if (product) {
-    res.render('product-alert', {
+    return res.render('product-alert', {
       style: 'product-alert',
       info: 'Товар видалено',
     })
   } else {
-    res.render('product-alert', {
+    return res.render('product-alert', {
       style: 'product-alert',
-      info: 'Сталась помилка',
+      info: 'Товар з таким ID не знайдено',
     })
   }
 })

@@ -5,7 +5,7 @@ const router = express.Router()
 
 // ================================================================
 class Product {
-  static #List = []
+  static #list = []
 
   static #count = 0
 
@@ -32,15 +32,19 @@ class Product {
       category,
       price,
     )
-    this.#List.push(newProduct)
+    this.#list.push(newProduct)
   }
 
   static getList = () => {
-    return this.#List
+    return this.#list
   }
+
   static getById = (id) => {
+    return this.#list.find((product) => product.id === id)
+  }
+  static getRandomList = (id) => {
     //Фільтруємо товари, щоб вилучити той, з яким порівнюємо id
-    const filteredList = this.#List.filter(
+    const filteredList = this.#list.filter(
       (product) => product.id !== id,
     )
 
@@ -86,17 +90,23 @@ Product.add(
 
 // router.get Створює нам один ентпоїнт
 
-// // ↙️ тут вводимо шлях (PATH) до сторінки
-// router.get('/', function (req, res) {
-//   // res.render генерує нам HTML сторінку
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.get('/purchase-alert', function (req, res) {
+  // res.render генерує нам HTML сторінку
 
-//   // ↙️ cюди вводимо назву файлу з сontainer
-//   res.render('index', {
-//     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-//     style: 'index',
-//   })
-//   // ↑↑ сюди вводимо JSON дані
-// })
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('purchase-alert', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-alert',
+
+    data: {
+      message: 'Операція успішна',
+      info: 'Товар створенний',
+      link: '/test-path',
+    },
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
 
 // ================================================================
 
@@ -114,7 +124,7 @@ router.get('/', function (req, res) {
     style: 'purchase-index',
 
     data: {
-      List: Product.getList(),
+      list: Product.getList(),
     },
   })
   // ↑↑ сюди вводимо JSON дані
@@ -137,7 +147,33 @@ router.get('/purchase-product', function (req, res) {
     style: 'purchase-product',
 
     data: {
-      List: Product.getRandomList(id),
+      list: Product.getRandomList(id),
+      product: Product.getById(id),
+    },
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
+// ================================================================
+
+// ================================================================
+
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.post('/purchase-create', function (req, res) {
+  const id = Number(req.query.id)
+  const amount = Number(req.body.amount)
+
+  console.log(id, amount)
+  // res.render генерує нам HTML сторінку
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('purchase-product', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-product',
+
+    data: {
+      list: Product.getRandomList(id),
       product: Product.getById(id),
     },
   })

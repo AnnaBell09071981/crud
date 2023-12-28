@@ -5,7 +5,7 @@
 <main class="main">
   {{> heading title="Товари" info="Комп'ютери та ноутбуки, неттопи, моноблоки"}}
   <div class="product-list">
-    {{#each data.List}}
+    {{#each data.list}}
     {{> purchase-product data=this}}
     {{/each}}
   </div>

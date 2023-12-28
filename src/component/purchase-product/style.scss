@@ -1,5 +1,10 @@
 @use '../../lib/service.scss' as s;
 
+@use '../../component/heading/style.scss' as heading;
+@use '../../component/field/style.scss' as field;
+@use '../../component/divider/style.scss' as divider;
+
+
 .product-card {
     border-radius: 10px;
     border: 1px solid s.color(border);

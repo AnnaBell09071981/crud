@@ -28,6 +28,7 @@
 .field__input {
   border: 1px solid #ddd;
   padding: 8px;
+  border-radius: 10px;
 }
 
 .product-info__divider {

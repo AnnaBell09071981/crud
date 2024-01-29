@@ -88,8 +88,33 @@ Product.add(
 
 class Purchase {
   static DELIVERY_PRICE = 150
+  static #BONUS_FACTOR = 0.1
   static #count = 0
   static #list = []
+
+  static #bonusAccount = new Map()
+
+  static getBonusBalance = (email) => {
+    return Purchase.#bonusAccount.get(email) || 0
+  }
+
+  static updateBonusBalance = (
+    email,
+    price,
+    bonusUse = 0,
+  ) => {
+    const amount = price * Purchase.#BONUS_FACTOR
+
+    const currentBalance = Purchase.getBonusBalance(email)
+
+    const updateBalance = currentBalance + amount - bonusUse
+
+    Purchase.#bonusAccount.set(email, updateBalance)
+
+    console.log(email, updateBalance)
+
+    return amount
+  }
 
   constructor(data, product) {
     this.id = ++Purchase.#count
@@ -146,6 +171,33 @@ class Purchase {
     }
   }
 }
+
+class Promocode {
+  static #list = []
+
+  constructor(name, factor) {
+    this.name = name
+    this.factor = factor
+  }
+
+  static add = (name, factor) => {
+    const newPromocode = new Promocode(name, factor)
+    Promocode.#list.push(newPromocode)
+    return newPromocode
+  }
+
+  static getByName = (name) => {
+    return this.#list.find((promo) => promo.name === name)
+  }
+
+  static calc = (promo, price) => {
+    return price * promo.factor
+  }
+}
+
+Promocode.add('SUMMER2023', 0.9)
+Promocode.add('DISCOUNT50', 0.5)
+Promocode.add('SALE25', 0.75)
 // ================================================================
 
 // ================================================================
@@ -295,6 +347,8 @@ router.post('/purchase-submit', function (req, res) {
     lastname,
     email,
     phone,
+
+    promocode,
   } = req.body
 
   const product = Product.getById(id)
@@ -311,16 +365,31 @@ router.post('/purchase-submit', function (req, res) {
     })
   }
 
+  
+  if (product.amount < amount) {
+    return res.render('purchase-alert', {
+      style: 'purchase-alert',
+
+      data: {
+        message: 'Помилка',
+        info: 'Товар нема в потрібній кількості',
+        link: `/purchase-list`,
+      },
+    })
+  }
+
   totalPrice = Number(totalPrice)
   productPrice = Number(productPrice)
   deliveryPrice = Number(deliveryPrice)
   amount = Number(amount)
+  bonus = Number(bonus)
 
   if (
     isNaN(totalPrice) ||
     isNaN(productPrice) ||
     isNaN(deliveryPrice) ||
-    isNaN(amount)
+    isNaN(amount) ||
+    isNaN(bonus)
   ) {
     return res.render('purchase-alert', {
       style: 'purchase-alert',
@@ -345,17 +414,46 @@ router.post('/purchase-submit', function (req, res) {
     })
   }
 
+  if (bonus || bonus > 0) {
+    const bonusAmount = Purchase.getBonusBalance(email)
+
+    console.log(bonusAmount)
+
+    if (bonus > bonusAmount) {
+      bonus = bonusAmount
+    }
+
+    Purchase.updateBonusBalance(email, totalPrice, bonus)
+
+    totalPrice -= bonus
+  } else {
+    Purchase.updateBonusBalance(email, totalPrice, 0)
+  }
+
+  if (promocode) {
+    promocode = Promocode.getByName(promocode)
+
+    if (promocode) {
+      totalPrice = Promocode.calc(promocode, totalPrice)
+    }
+  }
+
+  if (totalPrice < 0) totalPrice = 0
+
   const purchase = Purchase.add(
     {
       totalPrice,
       productPrice,
       deliveryPrice,
       amount,
+      bonus,
 
       firstname,
       lastname,
       email,
       phone,
+
+      promocode,
     },
     product,
   )
@@ -374,15 +472,7 @@ router.post('/purchase-submit', function (req, res) {
   // ↑↑ сюди вводимо JSON дані
 })
 // ================================================================
-// res.render('purchase-product', {
-//   // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-//   style: 'purchase-product',
-
-//   data: {
-//     list: Product.getRandomList(id),
-//     product: Product.getById(id),
-//   },
-// })
+// 
 // ↑↑ сюди вводимо JSON дані
 
 // ================================================================

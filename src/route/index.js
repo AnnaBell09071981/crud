@@ -98,12 +98,16 @@ class Purchase {
     return Purchase.#bonusAccount.get(email) || 0
   }
 
+  static calcBonusAmount = (value) => {
+    return value * Purchase.#BONUS_FACTOR
+  }
+
   static updateBonusBalance = (
     email,
     price,
     bonusUse = 0,
   ) => {
-    const amount = price * Purchase.#BONUS_FACTOR
+    const amount = this.calcBonusAmount(price)
 
     const currentBalance = Purchase.getBonusBalance(email)
 
@@ -291,7 +295,7 @@ router.post('/purchase-create', function (req, res) {
 
   const product = Product.getById(id)
 
-  if (product.amount > 1) {
+  if (product.amount < 1) {
     return res.render('purchase-alert', {
       // вказуємо назву папки контейнера, в якій знаходяться наші стилі
       style: 'purchase-alert',
@@ -308,6 +312,7 @@ router.post('/purchase-create', function (req, res) {
 
   const productPrice = product.price * amount
   const totalPrice = productPrice + Purchase.DELIVERY_PRICE
+  const bonus = Purchase.calcBonusAmount(totalPrice)
   // res.render генерує нам HTML сторінку
 
   // ↙️ cюди вводимо назву файлу з сontainer
@@ -331,6 +336,7 @@ router.post('/purchase-create', function (req, res) {
       productPrice,
       deliveryPrice: Purchase.DELIVERY_PRICE,
       amount,
+      bonus,
     },
   })
 })
@@ -347,8 +353,10 @@ router.post('/purchase-submit', function (req, res) {
     lastname,
     email,
     phone,
+    comment,
 
     promocode,
+    bonus,
   } = req.body
 
   const product = Product.getById(id)
@@ -454,6 +462,7 @@ router.post('/purchase-submit', function (req, res) {
       phone,
 
       promocode,
+      comment,
     },
     product,
   )
